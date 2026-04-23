@@ -1,0 +1,42 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-client"
+}
+
+model Bar {
+  id          String     @id @default(cuid())
+  slug        String     @unique // Ejemplo: "bar-la-previa"
+  name        String
+  logoUrl     String?
+  themeConfig Json       // Aquí guardamos el primaryColor, etc.
+  categories  Category[]
+  products    Product[]
+  createdAt   DateTime   @default(now())
+}
+
+model Category {
+  id      String    @id @default(cuid())
+  name    String
+  order   Int       @default(0)
+  barId   String
+  bar     Bar       @relation(fields: [barId], references: [id])
+  products Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  imageUrl    String?
+  allergens   String[] // Array de strings: ["gluten", "lactosa"]
+  available   Boolean  @default(true)
+  barId       String
+  bar         Bar      @relation(fields: [barId], references: [id])
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+}
