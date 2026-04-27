@@ -6,36 +6,91 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// --- CORE: Multi-tenancy ---
+
 model Bar {
-  id          String     @id @default(cuid())
-  slug        String     @unique // Ejemplo: "bar-la-previa"
-  name        String
-  logoUrl     String?
-  themeConfig Json       // Aquí guardamos el primaryColor, etc.
-  categories  Category[]
-  products    Product[]
-  createdAt   DateTime   @default(now())
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  name          String
+  logoUrl       String?
+  
+  // Datos de Contacto y Negocio
+  managerName   String?
+  email         String    @unique
+  phone         String?
+  whatsappNumber String   // (formato internacional)
+  address       String?
+
+  themeConfig   Json
+
+  categories    Category[]
+  products      Product[]
+  menus         Menu[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
+
+// --- CATEGORIAS ---
 
 model Category {
-  id      String    @id @default(cuid())
-  name    String
-  order   Int       @default(0)
-  barId   String
-  bar     Bar       @relation(fields: [barId], references: [id])
-  products Product[]
+  id        String    @id @default(cuid())
+  name      String    // Ej: "Entrantes", "Bebidas", "Hamburguesas"
+  order     Int       @default(0) // Para ordenar las secciones en la carta
+  
+  barId     String
+  bar       Bar       @relation(fields: [barId], references: [id])
+  products  Product[]
 }
 
+// --- PRODUCTOS ---
+
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  price       Float
-  imageUrl    String?
-  allergens   String[] // Array de strings: ["gluten", "lactosa"]
-  available   Boolean  @default(true)
-  barId       String
-  bar         Bar      @relation(fields: [barId], references: [id])
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
+  id            String    @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  imageUrl      String?
+  allergens     String[]  // Array de strings: ["gluten", "lactosa", "frutos-secos"]
+  isShareable   Boolean   @default(false)
+  isAvailable   Boolean   @default(true)
+  
+  // Lógica de Menú
+  canBeInMenu   Boolean   @default(true)
+
+  barId         String
+  bar           Bar       @relation(fields: [barId], references: [id])
+  
+  categoryId    String
+  category      Category  @relation(fields: [categoryId], references: [id])
+
+  menus         ProductsInMenus[]
+}
+
+// --- MENÚS ---
+
+model Menu {
+  id            String    @id @default(cuid())
+  name          String    // Ej: "Menú del Día", "Menú Ejecutivo"
+  description   String?
+  price         Float     // Precio cerrado del menú completo
+  imageUrl      String?
+  
+  barId         String
+  bar           Bar       @relation(fields: [barId], references: [id])
+
+  products      ProductsInMenus[]
+  
+  isAvailable   Boolean   @default(true)
+}
+
+// Tabla intermedia para manejar qué productos pertenecen a qué menú
+// Permite que un producto esté en varios menús diferentes
+model ProductsInMenus {
+  productId String
+  menuId    String
+  product   Product @relation(fields: [productId], references: [id])
+  menu      Menu    @relation(fields: [menuId], references: [id])
+
+  @@id([productId, menuId])
 }

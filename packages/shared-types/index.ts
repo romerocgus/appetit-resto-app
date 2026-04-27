@@ -1,50 +1,44 @@
-// 1. Configuración Visual del Bar
-export interface BarTheme {
+import {
+  Bar as PrismaBar,
+  Product as PrismaProduct,
+  Category as PrismaCategory,
+  Menu as PrismaMenu,
+} from '@repo/database';
+
+// 1. Tipos para los JSON (que Prisma no tipa por defecto)
+export interface ThemeConfig {
   primaryColor: string;
   secondaryColor: string;
-  fontFamily: 'Roboto' | 'Inter' | 'Montserrat';
-  logoUrl?: string;
+  fontFamily: string;
+  borderRadius?: string;
 }
 
-// 2. Modelo de Bar (Tenant)
-export interface Bar {
-  id: string;
-  slug: string; // Ejemplo: 'bar-central' para la URL
-  name: string;
-  theme: BarTheme;
+// 2. Definimos Alérgenos como un tipo literal para evitar errores de escritura
+export type Allergen =
+  | 'gluten'
+  | 'lactosa'
+  | 'frutos-secos'
+  | 'huevo'
+  | 'pescado'
+  | 'soja';
+
+// 3. Extendemos los tipos de Prisma para incluir la configuración tipada
+export interface Bar extends Otype<PrismaBar, 'themeConfig'> {
+  themeConfig: ThemeConfig;
 }
 
-// 3. Menú y Productos
-export interface Product {
-  id: string;
-  barId: string;
-  categoryId: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl?: string;
-  allergens: string[]; // ['gluten', 'lactosa']
-  isAvailable: boolean;
-  isPromotion: boolean;
+// 4. Tipos compuestos para la UI (Los que usaremos en la Carta)
+// Un producto que ya incluye su categoría
+export interface ProductWithCategory extends PrismaProduct {
+  category: PrismaCategory;
 }
 
-export interface Category {
-  id: string;
-  barId: string;
-  name: string;
-  order: number; // Para ordenar las secciones (Entradas, Platos, Bebidas)
+// Un menú que ya incluye sus productos
+export interface MenuWithProducts extends PrismaMenu {
+  products: {
+    product: PrismaProduct;
+  }[];
 }
 
-// 4. Pedido (Carrito)
-export interface CartItem extends Product {
-  quantity: number;
-}
-
-export interface Order {
-  id: string;
-  barId: string;
-  items: CartItem[];
-  total: number;
-  createdAt: Date;
-  status: 'pending' | 'preparing' | 'delivered';
-}
+// Tipo de utilidad para sobrescribir propiedades (como el JSON de Bar)
+type Otype<T, K extends keyof T> = Omit<T, K>;
