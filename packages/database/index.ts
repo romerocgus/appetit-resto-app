@@ -1,13 +1,20 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
-// Esto evita que TypeScript se queje de la variable global
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+});
+
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
+// Asegúrate de NO estar pasando configuraciones raras en el constructor por ahora
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
+    // Eliminamos cualquier configuración de engine o adapter aquí para el seed
+    adapter,
     log:
       process.env.NODE_ENV === 'development'
         ? ['query', 'error', 'warn']
@@ -16,5 +23,4 @@ export const prisma =
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-// Exportamos todo lo demás (tipos de modelos, enums, etc.)
 export * from '@prisma/client';

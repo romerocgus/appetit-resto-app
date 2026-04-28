@@ -4,20 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "pnpm dlx prisma db seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
     "dotenv": "^17.4.2",
     "prisma": "^7.8.0",
-    "@repo/typescript-config": "workspace:*",
+    "tsx": "^4.21.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@prisma/config": "^7.8.0"
+    "@prisma/config": "^7.8.0",
+    "pg": "^8.20.0"
   }
 }

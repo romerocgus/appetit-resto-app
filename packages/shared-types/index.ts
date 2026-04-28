@@ -25,6 +25,13 @@ export type Allergen =
 // 3. Extendemos los tipos de Prisma para incluir la configuración tipada
 export interface Bar extends Otype<PrismaBar, 'themeConfig'> {
   themeConfig: ThemeConfig;
+  categories: Category[];
+  products: PrismaProduct[];
+  menus: PrismaMenu[];
+}
+
+export interface Category extends PrismaCategory {
+  products: PrismaProduct[];
 }
 
 // 4. Tipos compuestos para la UI (Los que usaremos en la Carta)
