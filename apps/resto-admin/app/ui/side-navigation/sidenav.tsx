@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Power } from 'lucide-react';
 import NavLinks from './nav-links';
+import NavLink from './link';
+import { PageNames } from './types';
 
 export default function SideNav() {
   return (
@@ -14,6 +16,7 @@ export default function SideNav() {
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+        <NavLink name={PageNames.settings} href="/dashboard/settings" />
         <form
         // action={async () => {
         //   'use server';
