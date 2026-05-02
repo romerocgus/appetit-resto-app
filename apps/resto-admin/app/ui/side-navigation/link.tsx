@@ -12,32 +12,28 @@ import {
 } from 'lucide-react';
 import { PageNames } from './types';
 
-const getIcon = (name: string) => {
-  switch (name) {
-    case PageNames.home:
-      return <LayoutDashboard className="w-6" />;
-    case PageNames.menus:
-      return <ScrollText className="w-6" />;
-    case PageNames.products:
-      return <Salad className="w-6" />;
-    case PageNames.categories:
-      return <NotebookTabs className="w-6" />;
-    case PageNames.qrcode:
-      return <QrCode className="w-6" />;
-    case PageNames.settings:
-      return <Settings className="w-6" />;
-    default:
-      return;
-  }
+const ICONS: Record<PageNames, React.ReactNode> = {
+  [PageNames.home]: <LayoutDashboard className="w-6" />,
+  [PageNames.menus]: <ScrollText className="w-6" />,
+  [PageNames.products]: <Salad className="w-6" />,
+  [PageNames.categories]: <NotebookTabs className="w-6" />,
+  [PageNames.qrcode]: <QrCode className="w-6" />,
+  [PageNames.settings]: <Settings className="w-6" />,
 };
 
 type NavLinkProps = {
-  name: string;
+  name: PageNames;
   href: string;
 };
 
 export default function NavLink({ name, href }: NavLinkProps) {
   const pathName = usePathname();
+  const icon = ICONS[name];
+
+  if (!icon) {
+    return null;
+  }
+
   return (
     <Link
       href={href}
@@ -48,7 +44,7 @@ export default function NavLink({ name, href }: NavLinkProps) {
         },
       )}
     >
-      {getIcon(name)}
+      {icon}
       <p className="hidden md:block">{name}</p>
     </Link>
   );
