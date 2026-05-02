@@ -24,7 +24,12 @@ export default async function Home() {
   }
   return (
     <div>
-      <main>Admin App</main>
+      <main>
+        <h1 className="text-3xl font-bold underline ">Pagina principal</h1>
+        <button className="bg-blue-700 text-blue-100 rounded-md hover:rounded-xl px-8 py-2 m-16px">
+          Login
+        </button>
+      </main>
     </div>
   );
 }
