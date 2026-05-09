@@ -6,91 +6,164 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// --- CORE: Multi-tenancy ---
+// --- CORE: Usuarios y Bares ---
 
 model Bar {
-  id            String    @id @default(cuid())
-  slug          String    @unique
-  name          String
-  logoUrl       String?
+  id             String      @id @default(cuid())
+  name           String
+  slug           String      @unique
+  email          String      @unique
+  address        String?
+  phone          String?
+  whatsappNumber String      
+  logoUrl        String?
+  image          String?
+  description    String?
+  themeConfig    Json?
   
-  // Datos de Contacto y Negocio
-  managerName   String?
-  email         String    @unique
-  phone         String?
-  whatsappNumber String   // (formato internacional)
-  address       String?
+  staff          BarMember[]
+  categories     Category[]
+  products       Product[]
+  menus          Menu[]
+  orders         Order[]     // <-- RELACIÓN AÑADIDA
 
-  themeConfig   Json
-
-  categories    Category[]
-  products      Product[]
-  menus         Menu[]
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
-// --- CATEGORIAS ---
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  password     String
+  phone        String?
+
+  memberships  BarMember[]
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model BarMember {
+  id           String       @id @default(cuid())
+  role         String       @default("viewer")
+
+  userId       String
+  barId        String
+  user         User         @relation(fields: [userId], references: [id])
+  bar          Bar          @relation(fields: [barId], references: [id])
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  @@unique([userId, barId]) // Evita que un usuario esté duplicado en el mismo bar
+}
+
+// --- ESTRUCTURA DE CARTA ---
 
 model Category {
-  id        String    @id @default(cuid())
-  name      String    // Ej: "Entrantes", "Bebidas", "Hamburguesas"
-  order     Int       @default(0) // Para ordenar las secciones en la carta
-  
-  barId     String
-  bar       Bar       @relation(fields: [barId], references: [id])
-  products  Product[]
-}
+  id           String       @id @default(cuid())
+  name         String
+  image        String?
+  description  String?
+  order        Int          @default(0) // Para ordenar las secciones en la carta
 
-// --- PRODUCTOS ---
+  barId        String
+  bar          Bar          @relation(fields: [barId], references: [id])
+  products     Product[]
+  menus        CategoriesInMenus[] // <-- RELACIÓN AÑADIDA
+  // Permite que una categoría esté presente en varios menús
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
 
 model Product {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String
+  image         String
   description   String
+  allergens     String[]
   price         Float
-  imageUrl      String?
-  allergens     String[]  // Array de strings: ["gluten", "lactosa", "frutos-secos"]
-  isShareable   Boolean   @default(false)
-  isAvailable   Boolean   @default(true)
-  
-  // Lógica de Menú
-  canBeInMenu   Boolean   @default(true)
 
-  barId         String
-  bar           Bar       @relation(fields: [barId], references: [id])
+  isShareable   Boolean     @default(false)
+  isAvailable   Boolean     @default(true)
+  canBeInMenu   Boolean     @default(true)
   
   categoryId    String
-  category      Category  @relation(fields: [categoryId], references: [id])
-
+  category      Category    @relation(fields: [categoryId], references: [id])
+  barId         String
+  bar           Bar         @relation(fields: [barId], references: [id])
   menus         ProductsInMenus[]
-}
+  orderItems    OrderItem[] // Relación con pedidos
 
-// --- MENÚS ---
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
 
 model Menu {
-  id            String    @id @default(cuid())
-  name          String    // Ej: "Menú del Día", "Menú Ejecutivo"
-  description   String?
-  price         Float     // Precio cerrado del menú completo
-  imageUrl      String?
-  
-  barId         String
-  bar           Bar       @relation(fields: [barId], references: [id])
+  id            String      @id @default(cuid())
+  name          String
+  image         String
+  description   String
+  price         Float       // Precio fijo del menú
 
+  isAvailable   Boolean     @default(true)
+
+  barId         String
+  bar           Bar         @relation(fields: [barId], references: [id])
   products      ProductsInMenus[]
-  
-  isAvailable   Boolean   @default(true)
+  categories    CategoriesInMenus[] // <-- Define qué categorías componen este menú
+  orderItems    OrderItem[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
-// Tabla intermedia para manejar qué productos pertenecen a qué menú
-// Permite que un producto esté en varios menús diferentes
-model ProductsInMenus {
-  productId String
-  menuId    String
-  product   Product @relation(fields: [productId], references: [id])
-  menu      Menu    @relation(fields: [menuId], references: [id])
+// --- TABLAS INTERMEDIAS DE LÓGICA ---
 
+model CategoriesInMenus {
+  menuId        String
+  categoryId    String
+  menu          Menu        @relation(fields: [menuId], references: [id])
+  category      Category    @relation(fields: [categoryId], references: [id])
+  @@id([menuId, categoryId])
+}
+
+model ProductsInMenus {
+  productId     String
+  menuId        String
+  product       Product     @relation(fields: [productId], references: [id])
+  menu          Menu        @relation(fields: [menuId], references: [id])
   @@id([productId, menuId])
+}
+
+// --- SISTEMA DE PEDIDOS ---
+
+model Order {
+  id            String      @id @default(cuid())
+  customerName  String?
+  tableNumber   String?     // Por si piden desde la mesa
+  totalPrice    Float
+  status        String      @default("PENDING") // PENDING, DELIVERED, CANCELLED
+  
+  barId         String
+  bar           Bar         @relation(fields: [barId], references: [id])
+  items         OrderItem[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  quantity  Int      @default(1)
+  price     Float    // Precio en el momento de la compra (histórico)
+  
+  order     Order    @relation(fields: [orderId], references: [id])
+  // Un ítem de pedido puede ser un Producto O un Menú
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  menuId    String?
+  menu      Menu?    @relation(fields: [menuId], references: [id])
 }
