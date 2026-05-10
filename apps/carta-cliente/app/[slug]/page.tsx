@@ -21,6 +21,9 @@ export default async function CartaPage({
       products: {
         orderBy: { name: 'asc' },
       },
+      menus: { orderBy: { name: 'asc' } },
+      orders: { orderBy: { customerName: 'asc' } },
+      staff: { orderBy: { id: 'asc' }, include: { user: true } },
     },
   })) as Bar | null;
 
@@ -56,6 +59,32 @@ export default async function CartaPage({
                 </li>
               ))}
             </ul>
+          </div>
+        ))}
+      </section>
+      <section>
+        {bar.menus.map((menu) => (
+          <div key={menu.id} style={{ marginBottom: '30px' }}>
+            <h2 style={{ borderBottom: '1px solid #ccc' }}>{menu.name}</h2>
+          </div>
+        ))}
+      </section>
+      <section>
+        {bar.orders.map((order) => (
+          <div key={order.id} style={{ marginBottom: '30px' }}>
+            <h2 style={{ borderBottom: '1px solid #ccc' }}>
+              {order.customerName}
+            </h2>
+          </div>
+        ))}
+      </section>
+      <section>
+        {bar.staff.map((member) => (
+          <div key={member.id} style={{ marginBottom: '30px' }}>
+            <h2 style={{ borderBottom: '1px solid #ccc' }}>{member.id}</h2>
+            <h2 style={{ borderBottom: '1px solid #ccc' }}>
+              {member.user.name}
+            </h2>
           </div>
         ))}
       </section>

@@ -3,6 +3,9 @@ import {
   Product as PrismaProduct,
   Category as PrismaCategory,
   Menu as PrismaMenu,
+  Order as PrismaOrder,
+  BarMember as PrismaBarMember,
+  User as PrismaUser,
 } from '@repo/database';
 
 // 1. Tipos para los JSON (que Prisma no tipa por defecto)
@@ -28,10 +31,16 @@ export interface Bar extends Otype<PrismaBar, 'themeConfig'> {
   categories: Category[];
   products: PrismaProduct[];
   menus: PrismaMenu[];
+  orders: PrismaOrder[];
+  staff: BarMember[];
 }
 
 export interface Category extends PrismaCategory {
   products: PrismaProduct[];
+}
+
+export interface BarMember extends PrismaBarMember {
+  user: PrismaUser;
 }
 
 // 4. Tipos compuestos para la UI (Los que usaremos en la Carta)
