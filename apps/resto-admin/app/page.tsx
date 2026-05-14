@@ -2,6 +2,7 @@ import { prisma } from '@repo/database';
 import { notFound } from 'next/navigation';
 import { Bar } from '@repo/shared-types';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default async function Home() {
   const bar = (await prisma.bar.findUnique({
@@ -27,10 +28,10 @@ export default async function Home() {
     <div>
       <main>
         <h1 className="text-3xl font-bold underline ">Pagina principal</h1>
-        <button className="bg-blue-700 text-blue-100 rounded-md hover:rounded-xl px-8 py-2 m-16px">
-          Login
-        </button>
-        <Button>Button ShadCn</Button>
+
+        <Button className="px-10" asChild>
+          <Link href="/login">Login</Link>
+        </Button>
       </main>
     </div>
   );
