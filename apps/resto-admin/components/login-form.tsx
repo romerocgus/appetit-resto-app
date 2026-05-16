@@ -23,6 +23,12 @@ export function LoginForm({
           <form className="p-6 md:p-8">
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
+                <Image
+                  src="/assets/images/appetit-logo.svg"
+                  alt="appetit logo"
+                  width={64}
+                  height={64}
+                />
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
                   Log in to access your administration panel
@@ -79,9 +85,9 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
-      <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{' '}
-        and <a href="#">Privacy Policy</a>.
+      <FieldDescription className="px-6 text-center text-stone-300">
+        By loging in, you agree to our <a href="#">Terms of Service</a> and{' '}
+        <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
   );
