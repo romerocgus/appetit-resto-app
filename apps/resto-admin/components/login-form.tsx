@@ -85,7 +85,7 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
-      <FieldDescription className="px-6 text-center text-stone-300">
+      <FieldDescription className="px-6 text-center">
         By loging in, you agree to our <a href="#">Terms of Service</a> and{' '}
         <a href="#">Privacy Policy</a>.
       </FieldDescription>
