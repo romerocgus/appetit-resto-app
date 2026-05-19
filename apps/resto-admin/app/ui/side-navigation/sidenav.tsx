@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { Power } from 'lucide-react';
-import NavLinks from './nav-links';
+import Link from 'next/link';
+import { PageNames } from '../app-sidebar/types';
 import NavLink from './link';
-import { PageNames } from './types';
+import NavLinks from './nav-links';
 
 export default function SideNav() {
   return (
