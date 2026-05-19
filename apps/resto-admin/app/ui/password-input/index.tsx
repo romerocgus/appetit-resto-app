@@ -1,13 +1,13 @@
 'use client';
 
-import { Eye, EyeClosed, LockKeyhole } from 'lucide-react';
-import * as React from 'react';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from '../ui/input-group';
+} from '@/components/ui/input-group';
+import { Eye, EyeClosed, LockKeyhole } from 'lucide-react';
+import * as React from 'react';
 
 export default function PasswordInput() {
   const [showPassword, setShowPassword] = React.useState(false);

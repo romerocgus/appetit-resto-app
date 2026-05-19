@@ -1,3 +1,4 @@
+import PasswordInput from '@/app/ui/password-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -6,11 +7,14 @@ import {
   FieldGroup,
   FieldSeparator,
 } from '@/components/ui/field';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
 import Image from 'next/image';
-import PasswordInput from './custom/password-input';
-import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group';
 
 export function LoginForm({
   className,

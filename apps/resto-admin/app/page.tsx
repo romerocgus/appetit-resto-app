@@ -1,8 +1,8 @@
-import { prisma } from '@repo/database';
-import { notFound } from 'next/navigation';
-import { Bar } from '@repo/shared-types';
 import { Button } from '@/components/ui/button';
+import { prisma } from '@repo/database';
+import { Bar } from '@repo/shared-types';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 export default async function Home() {
   const bar = (await prisma.bar.findUnique({
@@ -19,11 +19,12 @@ export default async function Home() {
       },
     },
   })) as Bar | null;
-  console.log('🚀 ~ bar:', bar);
+  // console.log('🚀 ~ bar:', bar);
 
   if (!bar) {
     notFound();
   }
+
   return (
     <div>
       <main>
