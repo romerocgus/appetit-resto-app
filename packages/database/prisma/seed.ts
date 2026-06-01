@@ -10,6 +10,7 @@ async function main() {
   await prisma.menu.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.tag.deleteMany();
   await prisma.barMember.deleteMany();
   await prisma.bar.deleteMany();
   await prisma.user.deleteMany();
@@ -48,6 +49,17 @@ async function main() {
     },
   });
 
+  console.log('--- Creando Tags del Sistema ---');
+  const tagVegano = await prisma.tag.create({
+    data: { name: 'Vegano', icon: '🌱', color: '#22C55E', isSystem: true },
+  });
+  const tagSinTacc = await prisma.tag.create({
+    data: { name: 'Sin TACC', icon: '🌾', color: '#EAB308', isSystem: true },
+  });
+  const tagPicante = await prisma.tag.create({
+    data: { name: 'Picante', icon: '🌶️', color: '#EF4444', isSystem: true },
+  });
+
   console.log('--- Creando Categorías ---');
   const catBurgers = await prisma.category.create({
     data: { name: 'Hamburguesas', barId: bar.id },
@@ -64,61 +76,69 @@ async function main() {
     data: {
       name: 'Burger Classic',
       price: 12.5,
-      description: 'Nuestra hamburguesa clásica con queso y lechuga.', // Campo obligatorio
-      image: 'https://imageurl.com', // O imageUrl, verif
+      description: 'Nuestra hamburguesa clásica con queso y lechuga.',
+      image: 'https://imageurl.com',
       categoryId: catBurgers.id,
       barId: bar.id,
+      tags: {
+        connect: [{ id: tagPicante.id }],
+      },
     },
   });
 
   const burger2 = await prisma.product.create({
     data: {
-      name: 'Burger XXL',
+      name: 'Burger XXL Veggie',
       price: 15.0,
       description:
-        'Nuestra hamburguesa clásica con queso y lechuga pero mas grande', // Campo obligatorio
+        'Nuestra hamburguesa de medallón de lentejas, lechuga y tomate.',
       image: 'https://imageurl.com',
       categoryId: catBurgers.id,
       barId: bar.id,
+      tags: {
+        connect: [{ id: tagVegano.id }, { id: tagSinTacc.id }],
+      },
     },
   });
 
-  const bebida1 = await prisma.product.create({
+  const { id: bebida1Id } = await prisma.product.create({
     data: {
       name: 'Cerveza IPA',
       price: 4.5,
-      description: 'Cerveza IPA buenaza', // Campo obligatorio
+      description: 'Cerveza IPA buenaza',
       image: 'https://imageurl.com',
       categoryId: catBebidas.id,
       barId: bar.id,
+      // Las bebidas por defecto no suelen llevar tags alimenticios comunes, lo dejamos vacío
     },
   });
 
   const postre1 = await prisma.product.create({
     data: {
-      name: 'Cheesecake',
+      name: 'Cheesecake Sin TACC',
       price: 6.0,
-      description: 'Cheesecake riquisima', // Campo obligatorio
+      description: 'Cheesecake riquísima y apta para celíacos',
       image: 'https://imageurl.com',
       categoryId: catPostres.id,
       barId: bar.id,
+      tags: {
+        connect: [{ id: tagSinTacc.id }],
+      },
     },
   });
 
   console.log('--- Creando Menú Completo ---');
-  // Menú ejecutivo: Elige una burger y una bebida por un precio fijo
   const menuEjecutivo = await prisma.menu.create({
     data: {
       name: 'Menú Ejecutivo Mediodía',
-      description: 'Menú Ejecutivo Mediodía', // Campo obligatorio
+      description: 'Menú Ejecutivo Mediodía',
       image: 'https://imageurl.com',
-      price: 14.0, // Precio fijo independientemente de los productos
+      price: 14.0,
       barId: bar.id,
     },
   });
 
   console.log('--- Vinculando Categorías y Productos al Menú ---');
-  // Definimos qué categorías componen el menú (Lógica: elige uno de cada)
   await prisma.categoriesInMenus.createMany({
     data: [
       { menuId: menuEjecutivo.id, categoryId: catBurgers.id },
@@ -126,16 +146,15 @@ async function main() {
     ],
   });
 
-  // Agregamos productos específicos que pueden entrar en ese menú
   await prisma.productsInMenus.createMany({
     data: [
       { menuId: menuEjecutivo.id, productId: burger1.id },
-      { menuId: menuEjecutivo.id, productId: bebida1.id },
+      { menuId: menuEjecutivo.id, productId: bebida1Id },
     ],
   });
 
   console.log('--- Creando Pedido de Prueba ---');
-  const order = await prisma.order.create({
+  await prisma.order.create({
     data: {
       customerName: 'Cliente Juan',
       tableNumber: 'Mesa 5',
@@ -147,12 +166,12 @@ async function main() {
           {
             quantity: 1,
             price: 12.5,
-            productId: burger1.id, // Producto suelto
+            productId: burger1.id,
           },
           {
             quantity: 1,
             price: 14.0,
-            menuId: menuEjecutivo.id, // Un menú completo
+            menuId: menuEjecutivo.id,
           },
         ],
       },

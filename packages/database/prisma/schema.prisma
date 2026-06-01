@@ -84,7 +84,10 @@ model Product {
   description   String
   allergens     String[]
   price         Float
+  tags          Tag[]
 
+
+  isTopSeller   Boolean     @default(false)
   isShareable   Boolean     @default(false)
   isAvailable   Boolean     @default(true)
   canBeInMenu   Boolean     @default(true)
@@ -98,6 +101,16 @@ model Product {
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+}
+
+model Tag {
+  id            String      @id @default(cuid())
+  name          String      @unique // Ej: "Vegano", "Sin TACC", "Picante"
+  icon          String?     // Para guardar un identificador de icono o emoji
+  color         String?     // Un código hexadecimal para el color del tag en la interfaz
+  isSystem      Boolean     @default(false) // True para los fijos (Vegano, etc.), False para los creados por el bar
+
+  products      Product[]
 }
 
 model Menu {
