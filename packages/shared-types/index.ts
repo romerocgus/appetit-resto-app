@@ -41,6 +41,7 @@ export interface Category extends PrismaCategory {
 
 export interface BarMember extends PrismaBarMember {
   user: PrismaUser;
+  bar: PrismaBar;
 }
 
 // 4. Tipos compuestos para la UI (Los que usaremos en la Carta)

@@ -5,7 +5,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
-export default function RootLayout({
+export default function AdminPanelLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -14,10 +14,8 @@ export default function RootLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <main>
-          <SidebarTrigger />
-          {children}
-        </main>
+        <SidebarTrigger />
+        {children}
       </SidebarInset>
     </SidebarProvider>
   );

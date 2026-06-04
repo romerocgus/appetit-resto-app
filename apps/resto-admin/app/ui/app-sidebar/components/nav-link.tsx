@@ -9,7 +9,7 @@ import {
   Settings,
 } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { PageNames } from '../types';
 
 const ICONS: Record<PageNames, React.ReactNode> = {
@@ -23,11 +23,13 @@ const ICONS: Record<PageNames, React.ReactNode> = {
 
 type NavLinkProps = {
   name: PageNames;
-  href: string;
+  slug: string;
 };
 
-export default function NavLink({ name, href }: NavLinkProps) {
+export default function NavLink({ name, slug }: NavLinkProps) {
   const pathName = usePathname();
+  const params = useParams();
+  const currentBarId = params.barId as string;
   const icon = ICONS[name];
 
   if (!icon) {
@@ -35,8 +37,8 @@ export default function NavLink({ name, href }: NavLinkProps) {
   }
 
   return (
-    <SidebarMenuButton asChild isActive={pathName === href}>
-      <Link href={href}>
+    <SidebarMenuButton asChild isActive={pathName.includes(slug)}>
+      <Link href={`/${currentBarId}/${slug}`}>
         {icon}
         <span>{name}</span>
       </Link>

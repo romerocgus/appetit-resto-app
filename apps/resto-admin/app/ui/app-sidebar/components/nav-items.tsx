@@ -3,14 +3,14 @@ import { PageNames } from '../types';
 import NavLink from './nav-link';
 
 const links = [
-  { name: PageNames.home, href: '/dashboard' },
-  { name: PageNames.menus, href: '/menus' },
-  { name: PageNames.products, href: '/products' },
+  { name: PageNames.home, slug: 'dashboard' },
+  { name: PageNames.menus, slug: 'menus' },
+  { name: PageNames.products, slug: 'products' },
   {
     name: PageNames.categories,
-    href: '/categories',
+    slug: 'categories',
   },
-  { name: PageNames.qrcode, href: '/qrcode' },
+  { name: PageNames.qrcode, slug: 'qrcode' },
 ];
 
 export default function NavItems() {
@@ -18,8 +18,8 @@ export default function NavItems() {
     <>
       {links.map((link) => {
         return (
-          <SidebarMenuItem key={link.href}>
-            <NavLink name={link.name} href={link.href} />
+          <SidebarMenuItem key={link.slug}>
+            <NavLink name={link.name} slug={link.slug} />
           </SidebarMenuItem>
         );
       })}

@@ -15,34 +15,37 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { BarMember } from '@repo/shared-types';
 import { ChevronDown, GalleryVerticalEnd, Plus } from 'lucide-react';
+import { notFound, useParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const RESTAURANTS = [
-  {
-    name: 'Restaurant 1',
-    plan: 'test plan 1',
-    logo: GalleryVerticalEnd,
-  },
-  {
-    name: 'Restaurant 2',
-    plan: 'test plan 2',
-    logo: GalleryVerticalEnd,
-  },
-  {
-    name: 'Restaurant 3',
-    plan: 'test plan 3',
-    logo: GalleryVerticalEnd,
-  },
-];
-
-export const RestoSwitcher = () => {
+export const RestoSwitcher = ({
+  memberships,
+}: {
+  memberships: BarMember[];
+}) => {
   const { isMobile } = useSidebar();
-  const [activeBar, setActiveBar] = useState(RESTAURANTS[0]);
+  const [activeMembership, setActiveMembership] = useState(memberships[0]);
 
-  if (!activeBar) {
-    return null;
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useParams();
+
+  const currentBarId = params.barId as string;
+
+  if (!activeMembership) {
+    return notFound();
   }
+
+  const handleBarSelect = (membership: BarMember) => {
+    setActiveMembership(membership);
+    const newPath = pathname.replace(
+      `/${currentBarId}`,
+      `/${membership.bar.id}`,
+    );
+    router.push(newPath);
+  };
 
   return (
     <SidebarMenu>
@@ -54,11 +57,15 @@ export const RestoSwitcher = () => {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <activeBar.logo className="size-4" />
+                {activeMembership.bar.logoUrl || <GalleryVerticalEnd />}
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeBar.name}</span>
-                <span className="truncate text-xs">{activeBar.plan}</span>
+                <span className="truncate font-medium">
+                  {activeMembership.bar.name}
+                </span>
+                <span className="truncate text-xs">
+                  {activeMembership.role}
+                </span>
               </div>
               <ChevronDown className="ml-auto" />
             </SidebarMenuButton>
@@ -72,16 +79,16 @@ export const RestoSwitcher = () => {
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               Restaurant
             </DropdownMenuLabel>
-            {RESTAURANTS.map((bar, index) => (
+            {memberships.map((membership, index) => (
               <DropdownMenuItem
-                key={bar.name}
-                onClick={() => setActiveBar(bar)}
+                key={membership.id}
+                onClick={() => handleBarSelect(membership)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">
-                  <bar.logo className="size-3.5 shrink-0" />
+                  {membership.bar.logoUrl || <GalleryVerticalEnd />}
                 </div>
-                {bar.name}
+                {membership.bar.name}
                 <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
