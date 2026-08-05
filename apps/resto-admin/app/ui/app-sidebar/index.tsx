@@ -15,9 +15,9 @@ import { prisma } from '@repo/database';
 import { notFound } from 'next/navigation';
 import { BarMember } from '@repo/shared-types';
 
-export async function AppSidebar() {
+export async function AppSidebar({ clientId }: { clientId: string }) {
   const user = await prisma.user.findUnique({
-    where: { id: 'cmpvc0wnh0000kgtny3k7xgfw' }, //el id de mi usuario en la bd
+    where: { id: clientId },
     include: {
       memberships: { include: { bar: true } },
     },

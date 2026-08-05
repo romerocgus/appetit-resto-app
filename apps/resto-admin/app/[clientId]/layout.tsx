@@ -5,14 +5,18 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
-export default function AdminPanelLayout({
+export default async function AdminPanelLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ clientId: string }>;
+}) {
+  const { clientId } = await params;
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar clientId={clientId} />
       <SidebarInset>
         <SidebarTrigger />
         {children}

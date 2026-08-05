@@ -1,40 +1,36 @@
+import type { NextAuthRequest } from 'next-auth';
+import { auth } from './auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
-export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+type ProxyRouteHandler = (
+  req: NextAuthRequest,
+  ctx: { params: Promise<unknown> },
+) => Response | Promise<Response | void> | void;
 
-  // 1. Obtener la sesión (ejemplo leyendo una cookie de sesión) POR AHORA USAR --> cmpvc0wnh0000kgtny3k7xgfw
-  const sessionToken = request.cookies.get('session-token')?.value;
+const handler: ProxyRouteHandler = async (req) => {
+  const { pathname } = req.nextUrl;
+  const isLoggedIn = !!req.auth;
 
-  // 2. Si el usuario intenta ir a la raíz "/" y SÍ está logueado:
-  if (pathname === '/' && sessionToken) {
-    try {
-      const apiUrl = new URL('/api/get-default-bar', request.url);
-      apiUrl.searchParams.set('token', sessionToken);
-
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-
-      if (data?.firstBarId) {
-        return NextResponse.redirect(
-          new URL(`/${data.firstBarId}/dashboard`, request.url),
-        );
-      } else {
-        return NextResponse.redirect(new URL('/login', request.url));
-      }
-    } catch (error) {
-      console.error('Error obteniendo bares en el middleware:', error);
-      // Si algo falla, dejamos que vea la landing por seguridad
-      return NextResponse.next();
+  if (pathname === '/' && isLoggedIn) {
+    const clientId = req.auth?.user?.id;
+    if (clientId) {
+      return NextResponse.redirect(new URL(`/${clientId}/dashboard`, req.url));
+    } else {
+      return NextResponse.redirect(new URL('/login', req.url));
     }
   }
+  //TODO: CHECK THIS WHEN MORE SECTIONS ARE READY
+  if (!isLoggedIn && pathname.includes('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
 
-  // Para cualquier otra ruta, dejamos que la petición continúe normalmente
   return NextResponse.next();
-}
+};
 
-// 3. Configuración del Matcher: Define qué rutas interceptará el Middleware
+const protectedHandler: ProxyRouteHandler = auth(handler);
+
+export default protectedHandler;
+
 export const config = {
   /*
    * Matchea todas las rutas menos las que tengan:
