@@ -18,6 +18,7 @@ export default function PasswordInput() {
       </InputGroupAddon>
       <InputGroupInput
         id="password"
+        name="password"
         placeholder="Password"
         type={showPassword ? 'text' : 'password'}
         required

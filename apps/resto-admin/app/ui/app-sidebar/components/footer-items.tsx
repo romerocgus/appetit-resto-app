@@ -9,8 +9,13 @@ import {
 } from '@/components/ui/sidebar';
 import { Power, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 export const FooterItems = () => {
+  const handleLogout = () => {
+    signOut();
+  };
+
   return (
     <>
       <Separator />
@@ -25,11 +30,9 @@ export const FooterItems = () => {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild variant="outline">
-              <Link href="/login">
-                <Power />
-                <span>Log out</span>
-              </Link>
+            <SidebarMenuButton variant="outline" onClick={handleLogout}>
+              <Power />
+              <span>Log out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

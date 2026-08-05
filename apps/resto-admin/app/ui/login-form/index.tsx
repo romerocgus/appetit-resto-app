@@ -1,3 +1,5 @@
+'use client';
+
 import PasswordInput from '@/app/ui/password-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,15 +18,20 @@ import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
 import Image from 'next/image';
 
+import { useActionState } from 'react';
+import { loginAction } from '@/app/actions/login-action';
+
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [state, action] = useActionState(loginAction, undefined);
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden p-0 shadow-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form action={action} className="p-6 md:p-8">
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <Image
@@ -44,15 +51,27 @@ export function LoginForm({
                     <User />
                   </InputGroupAddon>
                   <InputGroupInput
-                    id="username"
-                    type="text"
-                    placeholder="Username"
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="E-mail"
                     required
                   />
                 </InputGroup>
+                {state?.errors?.email && <p>{state.errors.email}</p>}
               </Field>
               <Field>
                 <PasswordInput />
+                {state?.errors?.password && (
+                  <div>
+                    <p>Password must:</p>
+                    <ul>
+                      {state.errors.password.map((error) => (
+                        <li key={error}>- {error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <a
                   href="#"
                   className="ml-auto text-sm underline-offset-2 hover:underline"

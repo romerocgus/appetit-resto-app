@@ -3,15 +3,15 @@ import { prisma } from '@repo/database';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const sessionToken = searchParams.get('token');
+  const userEmail = searchParams.get('userEmail');
 
-  if (!sessionToken) {
-    return NextResponse.json({ error: 'No token' }, { status: 401 });
+  if (!userEmail) {
+    return NextResponse.json({ error: 'Email not found' }, { status: 401 });
   }
 
   try {
     const user = await prisma.user.findUnique({
-      where: { id: sessionToken },
+      where: { email: userEmail },
       include: {
         memberships: { include: { bar: true } },
       },
