@@ -1,4 +1,5 @@
 import { prisma } from '../index';
+import bcrypt from 'bcryptjs';
 
 async function main() {
   console.log('--- Limpiando base de datos ---');
@@ -7,6 +8,8 @@ async function main() {
   await prisma.order.deleteMany();
   await prisma.productsInMenus.deleteMany();
   await prisma.categoriesInMenus.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.account.deleteMany();
   await prisma.menu.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
@@ -16,12 +19,14 @@ async function main() {
   await prisma.user.deleteMany();
 
   console.log('--- Creando Usuario Admin ---');
+  const hashedPassword = await bcrypt.hash('password123', 10);
+
   const adminUser = await prisma.user.create({
     data: {
-      name: 'Gustavo Admin',
-      email: 'admin@appetit.com',
-      password: 'password123', // En un caso real, esto debería estar hasheado
-      phone: '+34600000000',
+      name: 'Gustavo Romero',
+      email: 'romeroc.gus@gmail.com',
+      password: hashedPassword,
+      phone: '+34633507145',
     },
   });
 
