@@ -10,16 +10,7 @@ type ProxyRouteHandler = (
 const handler: ProxyRouteHandler = async (req) => {
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!req.auth;
-
-  if (pathname === '/' && isLoggedIn) {
-    const clientId = req.auth?.user?.id;
-    if (clientId) {
-      return NextResponse.redirect(new URL(`/${clientId}/dashboard`, req.url));
-    } else {
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
-  }
-  //TODO: CHECK THIS WHEN MORE SECTIONS ARE READY
+  // TODO: CHECK THIS WHEN MORE SECTIONS ARE READY
   if (!isLoggedIn && pathname.includes('/dashboard')) {
     return NextResponse.redirect(new URL('/login', req.url));
   }

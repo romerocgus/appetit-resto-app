@@ -61,6 +61,10 @@ export function LoginForm({
                 {state?.errors?.email && <p>{state.errors.email}</p>}
               </Field>
               <Field>
+                {/* TODO: REMOVE PASSWORD FROM UI */}
+                <p className="text-balance text-muted-foreground">
+                  password123
+                </p>
                 <PasswordInput />
                 {state?.errors?.password && (
                   <div>
