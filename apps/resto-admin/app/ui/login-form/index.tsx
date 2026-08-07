@@ -101,6 +101,7 @@ export function LoginForm({
                   showHelper={!!errors.password?.message}
                   watch={watch}
                 />
+                {/* TODO: Create a page for this case */}
                 <a
                   href="#"
                   className="ml-auto text-sm underline-offset-2 hover:underline"
@@ -117,6 +118,7 @@ export function LoginForm({
                 )}
               </Field>
               <FieldSeparator>Or continue with</FieldSeparator>
+              {/* TODO: GOOGLE LOGIN */}
               <Button variant="outline" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path
@@ -127,6 +129,7 @@ export function LoginForm({
                 <span className="sr-only">Login with Google</span>
               </Button>
               <FieldDescription className="text-center">
+                {/* TODO: CREATE REGISTER PAGE */}
                 {`Don't have an account?`} <a href="#">Sign up</a>
               </FieldDescription>
             </FieldGroup>
@@ -142,6 +145,7 @@ export function LoginForm({
           </div>
         </CardContent>
       </Card>
+      {/* TODO: CREATE TERMS OF SERVICE AND PRIVACY POLICY PAGES */}
       <FieldDescription className="px-6 text-center">
         By loging in, you agree to our <a href="#">Terms of Service</a> and{' '}
         <a href="#">Privacy Policy</a>.
