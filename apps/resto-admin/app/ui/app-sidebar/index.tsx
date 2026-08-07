@@ -14,6 +14,7 @@ import { RestoSwitcher } from './components/resto-switch';
 import { prisma } from '@repo/database';
 import { notFound } from 'next/navigation';
 import { BarMember } from '@repo/shared-types';
+import HeaderAvatar from './components/header-avatar';
 
 export async function AppSidebar({ clientId }: { clientId: string }) {
   const user = await prisma.user.findUnique({
@@ -31,7 +32,7 @@ export async function AppSidebar({ clientId }: { clientId: string }) {
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
-        <h1>{`Welcome ${user?.name}`}</h1>
+        <HeaderAvatar username={user.name} userImage={user.image} />
         <RestoSwitcher memberships={memberships} />
       </SidebarHeader>
 
