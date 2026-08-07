@@ -1,18 +1,16 @@
 'use server';
 
 import { signIn } from '@/auth';
-import { LoginSchema, LoginState } from '@/lib/schemas';
+import { LoginSchema } from '@/lib/schemas';
 import { AuthError } from 'next-auth';
+import { LoginValues, ServerErrorMSG } from '../ui/login-form/types';
 
-export async function loginAction(prevState: LoginState, formData: FormData) {
-  const validatedFields = LoginSchema.safeParse({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+export async function loginAction(formValues: LoginValues) {
+  const validatedFields = LoginSchema.safeParse(formValues);
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      error: ServerErrorMSG.validationError,
     };
   }
 
@@ -24,17 +22,18 @@ export async function loginAction(prevState: LoginState, formData: FormData) {
       password,
       redirectTo: '/',
     });
+    return { success: true };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin': {
-          console.log('credenciales incorrectas');
-          return { error: 'Credenciales incorrectas.' };
+          return {
+            error: ServerErrorMSG.credentialsError,
+          };
         }
 
         default: {
-          console.log('Algo salió mal al intentar acceder.');
-          return { error: 'Algo salió mal al intentar acceder.' };
+          return { error: ServerErrorMSG.authError };
         }
       }
     }

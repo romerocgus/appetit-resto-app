@@ -1,6 +1,5 @@
 'use client';
 
-import PasswordInput from '@/app/ui/password-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -18,20 +17,48 @@ import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
 import Image from 'next/image';
 
-import { useActionState } from 'react';
+import { useState } from 'react';
 import { loginAction } from '@/app/actions/login-action';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginSchema } from '@/lib/schemas';
+import PasswordInput from './components/password-input';
+import { LoginValues } from './types';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const [state, action] = useActionState(loginAction, undefined);
+  const [serverError, setServerError] = useState<string | undefined>(undefined);
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm<LoginValues>({
+    resolver: zodResolver(LoginSchema),
+    mode: 'onChange',
+  });
+
+  const onSubmit = async (values: LoginValues) => {
+    setServerError(undefined);
+    const result = await loginAction(values);
+
+    if (result?.error) {
+      setServerError(result.error);
+    }
+  };
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card className="overflow-hidden p-0 shadow-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form action={action} className="p-6 md:p-8">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="p-6 md:p-8"
+          >
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <Image
@@ -52,30 +79,28 @@ export function LoginForm({
                   </InputGroupAddon>
                   <InputGroupInput
                     id="email"
-                    name="email"
                     type="email"
                     placeholder="E-mail"
+                    {...register('email')}
                     required
                   />
                 </InputGroup>
-                {state?.errors?.email && <p>{state.errors.email}</p>}
+                {errors.email?.message && (
+                  <p className="text-destructive text-xs px-4">
+                    {errors.email?.message}
+                  </p>
+                )}
               </Field>
               <Field>
                 {/* TODO: REMOVE PASSWORD FROM UI */}
                 <p className="text-balance text-muted-foreground">
                   password123
                 </p>
-                <PasswordInput />
-                {state?.errors?.password && (
-                  <div>
-                    <p>Password must:</p>
-                    <ul>
-                      {state.errors.password.map((error) => (
-                        <li key={error}>- {error}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <PasswordInput
+                  register={register}
+                  showHelper={!!errors.password?.message}
+                  watch={watch}
+                />
                 <a
                   href="#"
                   className="ml-auto text-sm underline-offset-2 hover:underline"
@@ -85,6 +110,11 @@ export function LoginForm({
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
+                {serverError && (
+                  <p className="text-destructive text-xs text-center">
+                    {serverError}
+                  </p>
+                )}
               </Field>
               <FieldSeparator>Or continue with</FieldSeparator>
               <Button variant="outline" type="button">
@@ -97,7 +127,7 @@ export function LoginForm({
                 <span className="sr-only">Login with Google</span>
               </Button>
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <a href="#">Sign up</a>
+                {`Don't have an account?`} <a href="#">Sign up</a>
               </FieldDescription>
             </FieldGroup>
           </form>
