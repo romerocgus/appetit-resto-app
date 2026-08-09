@@ -7,11 +7,16 @@ type ProxyRouteHandler = (
   ctx: { params: Promise<unknown> },
 ) => Response | Promise<Response | void> | void;
 
+const publicRoutes = ['/login', '/'];
+
 const handler: ProxyRouteHandler = async (req) => {
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!req.auth;
-  // TODO: CHECK THIS WHEN MORE SECTIONS ARE READY
-  if (!isLoggedIn && pathname.includes('/dashboard')) {
+
+  const isPublic =
+    publicRoutes.includes(pathname) || pathname.startsWith('/api');
+
+  if (!isLoggedIn && !isPublic) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
@@ -28,7 +33,10 @@ export const config = {
    * - api (rutas de API internas)
    * - _next/static (archivos estáticos de Next.js)
    * - _next/image (optimización de imágenes)
-   * - favicon.ico, imágenes, etc.
+   * - assets (tus imágenes, logos y archivos estáticos locales)
+   * - favicon.ico y extensiones de imágenes comunes (.svg, .png, .jpg, etc.)
    */
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|assets|.*\\.(?:svg|png|jpg|jpeg|webp|gif|ico)).*)',
+  ],
 };
