@@ -11,24 +11,20 @@ import {
 import { FooterItems } from './components/footer-items';
 import NavItems from './components/nav-items';
 import { RestoSwitcher } from './components/resto-switch';
-import { prisma } from '@repo/database';
 import { notFound } from 'next/navigation';
 import { BarMember } from '@repo/shared-types';
 import HeaderAvatar from './components/header-avatar';
 import { auth } from '@/auth';
+import { getUserById } from '@/lib/requests';
 
 export async function AppSidebar() {
   const session = await auth();
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: {
-      memberships: { include: { bar: true } },
-    },
-  });
+  const clientId = session?.user?.id;
+
+  const user = clientId && (await getUserById(clientId));
   if (!user) {
     notFound();
   }
-
   const memberships = user.memberships as BarMember[];
 
   return (

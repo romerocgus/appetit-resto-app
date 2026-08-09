@@ -1,16 +1,12 @@
-import { prisma } from '@repo/database';
+import { getProductsByBarId } from '@/lib/requests';
 
-export default async function ProductsPage() {
-  const products = await prisma.product.findMany({
-    where: { barId: 'cmpvc0wov0001kgtnuhcd1x3a' },
-    include: {
-      tags: true,
-      category: true,
-    },
-    orderBy: {
-      name: 'asc',
-    },
-  });
+export default async function ProductsPage({
+  params,
+}: {
+  params: Promise<{ barId: string }>;
+}) {
+  const { barId } = await params;
+  const products = await getProductsByBarId(barId);
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-2xl font-bold">Productos</h1>
