@@ -15,10 +15,12 @@ import { prisma } from '@repo/database';
 import { notFound } from 'next/navigation';
 import { BarMember } from '@repo/shared-types';
 import HeaderAvatar from './components/header-avatar';
+import { auth } from '@/auth';
 
-export async function AppSidebar({ clientId }: { clientId: string }) {
+export async function AppSidebar() {
+  const session = await auth();
   const user = await prisma.user.findUnique({
-    where: { id: clientId },
+    where: { id: session?.user?.id },
     include: {
       memberships: { include: { bar: true } },
     },

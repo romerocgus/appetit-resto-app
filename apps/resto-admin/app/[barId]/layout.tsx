@@ -7,16 +7,12 @@ import {
 
 export default async function AdminPanelLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ clientId: string }>;
 }) {
-  const { clientId } = await params;
-
   return (
     <SidebarProvider>
-      <AppSidebar clientId={clientId} />
+      <AppSidebar />
       <SidebarInset>
         <SidebarTrigger />
         {children}

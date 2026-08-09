@@ -2,12 +2,18 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import { getDefaultBarId } from '@/lib/requests';
 
 export default async function Home() {
   const session = await auth();
+  const clientId = session?.user?.id;
 
-  if (session?.user?.id) {
-    redirect(`/${session.user.id}/dashboard`);
+  if (clientId) {
+    const firstBarId: string | null = await getDefaultBarId(clientId);
+
+    if (firstBarId) {
+      redirect(`/${firstBarId}/dashboard`);
+    }
   }
 
   return (

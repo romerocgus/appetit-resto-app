@@ -28,8 +28,7 @@ type NavLinkProps = {
 
 export default function NavLink({ name, slug }: NavLinkProps) {
   const pathName = usePathname();
-  const params = useParams();
-  const currentBarId = params.barId as string;
+  const { barId } = useParams();
   const icon = ICONS[name];
 
   if (!icon) {
@@ -38,7 +37,7 @@ export default function NavLink({ name, slug }: NavLinkProps) {
 
   return (
     <SidebarMenuButton asChild isActive={pathName.includes(slug)}>
-      <Link href={`/${currentBarId}/${slug}`}>
+      <Link href={`/${barId}/${slug}`}>
         {icon}
         <span>{name}</span>
       </Link>
