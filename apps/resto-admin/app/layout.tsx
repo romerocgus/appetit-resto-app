@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const outfitHeading = Outfit({
   subsets: ['latin'],
@@ -22,7 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn(outfitHeading.variable)}>
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${inter.className}`}>
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
     </html>
   );
 }

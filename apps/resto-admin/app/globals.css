@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -54,8 +56,8 @@
   --card-foreground: oklch(0.256 0.05743 32.753);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.256 0.05743 32.753);
-  --primary: oklch(0.588 0.18931 38.741);
-  --primary-foreground: oklab(0.994 -0.00021 0.00807);
+  --primary: oklch(0.555 0.163 48.998);
+  --primary-foreground: oklch(0.987 0.022 95.277);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.96 0.002 17.2);
@@ -84,11 +86,11 @@
 
 .dark {
   --background: oklch(0.256 0.05743 32.753);
-  --foreground: oklab(0.994 -0.00021 0.00807);
+  --foreground: oklch(0.986 0.002 67.8);
   --card: oklch(0.214 0.009 43.1);
-  --card-foreground: oklab(0.994 -0.00021 0.00807);
+  --card-foreground: oklch(0.986 0.002 67.8);
   --popover: oklch(0.214 0.009 43.1);
-  --popover-foreground: oklab(0.994 -0.00021 0.00807);
+  --popover-foreground: oklch(0.986 0.002 67.8);
   --primary: oklch(0.473 0.137 46.201);
   --primary-foreground: oklch(0.987 0.022 95.277);
   --secondary: oklch(0.274 0.006 286.033);
@@ -96,7 +98,7 @@
   --muted: oklch(0.268 0.011 36.5);
   --muted-foreground: oklch(0.714 0.014 41.2);
   --accent: oklch(0.268 0.011 36.5);
-  --accent-foreground: oklab(0.994 -0.00021 0.00807);
+  --accent-foreground: oklch(0.986 0.002 67.8);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -107,11 +109,11 @@
   --chart-4: oklch(0.555 0.163 48.998);
   --chart-5: oklch(0.473 0.137 46.201);
   --sidebar: oklch(0.214 0.009 43.1);
-  --sidebar-foreground: oklab(0.994 -0.00021 0.00807);
+  --sidebar-foreground: oklch(0.986 0.002 67.8);
   --sidebar-primary: oklch(0.769 0.188 70.08);
   --sidebar-primary-foreground: oklch(0.279 0.077 45.635);
   --sidebar-accent: oklch(0.268 0.011 36.5);
-  --sidebar-accent-foreground: oklab(0.994 -0.00021 0.00807);
+  --sidebar-accent-foreground: oklch(0.986 0.002 67.8);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.547 0.021 43.1);
 }
