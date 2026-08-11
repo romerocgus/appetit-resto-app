@@ -41,7 +41,16 @@ export async function getUserById(
   }
 }
 
-export async function getProductsByBarId(barId: string) {
+export type ProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    tags: true;
+    category: true;
+  };
+}>;
+
+export async function getProductsByBarId(
+  barId: string,
+): Promise<ProductWithRelations[] | null> {
   try {
     const products = await prisma.product.findMany({
       where: { barId: barId },
