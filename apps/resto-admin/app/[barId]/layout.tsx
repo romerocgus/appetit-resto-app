@@ -1,9 +1,5 @@
 import { AppSidebar } from '@/app/ui/app-sidebar';
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 export default async function AdminPanelLayout({
   children,
@@ -14,8 +10,7 @@ export default async function AdminPanelLayout({
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <SidebarTrigger />
-        {children}
+        <div className="flex flex-col px-4 py-2 gap-6">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

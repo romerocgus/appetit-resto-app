@@ -3,7 +3,7 @@ import { PageNames } from '../types';
 import NavLink from './nav-link';
 
 const links = [
-  { name: PageNames.home, slug: 'dashboard' },
+  { name: PageNames.dashboard, slug: 'dashboard' },
   { name: PageNames.menus, slug: 'menus' },
   { name: PageNames.products, slug: 'products' },
   {

@@ -13,7 +13,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { PageNames } from '../types';
 
 const ICONS: Record<PageNames, React.ReactNode> = {
-  [PageNames.home]: <LayoutDashboard />,
+  [PageNames.dashboard]: <LayoutDashboard />,
   [PageNames.menus]: <ScrollText />,
   [PageNames.products]: <Salad />,
   [PageNames.categories]: <NotebookTabs />,

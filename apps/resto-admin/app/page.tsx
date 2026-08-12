@@ -23,9 +23,6 @@ export default async function Home() {
       <Button className="px-10" asChild>
         <Link href="/login">Login</Link>
       </Button>
-      <Button className="px-10" asChild>
-        <Link href="/dashboard">Home</Link>
-      </Button>
     </main>
   );
 }

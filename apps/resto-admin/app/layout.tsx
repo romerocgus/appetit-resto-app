@@ -12,7 +12,10 @@ const outfitHeading = Outfit({
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Appetit Resto Manager',
+  title: {
+    template: '%s | Appetit Resto Manager',
+    default: 'Appetit Resto Manager',
+  },
   description: 'Appetit Resto Manager',
 };
 

@@ -1,5 +1,5 @@
 export enum PageNames {
-  home = 'Home',
+  dashboard = 'Dashboard',
   menus = 'Menus',
   products = 'Products',
   categories = 'Categories',
