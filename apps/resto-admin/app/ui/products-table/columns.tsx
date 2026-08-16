@@ -9,8 +9,6 @@ import {
   Trash2,
   Copy,
   ArrowUpDown,
-  Tag,
-  Tags,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -24,6 +22,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ProductWithRelations } from '@/lib/requests';
+import TableImage from './table-image';
+import { Badge } from '@/components/ui/badge';
 
 const columnHelper = createColumnHelper<
   DataTableFeatures,
@@ -32,6 +32,7 @@ const columnHelper = createColumnHelper<
 
 export const columns = columnHelper.columns([
   columnHelper.display({
+    meta: { label: 'select' },
     id: 'select',
     header: ({ table }) => (
       <Checkbox
@@ -50,11 +51,18 @@ export const columns = columnHelper.columns([
     enableSorting: false,
     enableHiding: false,
   }),
+  columnHelper.accessor('image', {
+    meta: { label: 'Image' },
+    header: 'Image',
+    cell: (info) => <TableImage src={info.getValue()} />,
+  }),
   columnHelper.accessor('name', {
+    meta: { label: 'Name' },
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          role="button"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Name
@@ -64,37 +72,101 @@ export const columns = columnHelper.columns([
     },
   }),
   columnHelper.accessor('description', {
+    meta: { label: 'Description' },
     header: 'Description',
+    cell: (info) => {
+      const value = info.getValue();
+      return <div title={value}>{value}</div>;
+    },
   }),
   columnHelper.accessor('category', {
-    header: 'Category',
+    meta: { label: 'Category' },
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          role="button"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="ml-auto"
+        >
+          Category
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const product = row.original;
       return product.category.name;
     },
   }),
   columnHelper.accessor('tags', {
+    meta: { label: 'Tags' },
     header: 'Tags',
-    cell: ({ row }) => {
-      const product = row.original;
-      const tags = product.tags.map((tag) => tag.name);
+    cell: (info) => {
+      const tags = info.getValue();
       return (
-        <ul>
-          {tags.length > 0 && tags.map((tag) => <li key={tag}>{tag}</li>)}
-        </ul>
+        tags.length > 0 && (
+          <ul className="space-y-0.5">
+            {tags.map((tag) => (
+              <li key={tag.id}>
+                <Badge
+                  variant="outline"
+                  style={{ color: tag.color || '#ffff' }}
+                  className="border-current "
+                >
+                  {tag.name}
+                </Badge>
+              </li>
+            ))}
+          </ul>
+        )
       );
     },
   }),
-  columnHelper.accessor('price', {
+  columnHelper.accessor('isAvailable', {
+    meta: { label: 'Availability' },
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          role="button"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="ml-auto"
         >
-          Price
+          Availability
           <ArrowUpDown />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const isAvailable = row.getValue('isAvailable');
+
+      return isAvailable ? (
+        <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+          Available
+        </Badge>
+      ) : (
+        <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">
+          Not available
+        </Badge>
+      );
+    },
+  }),
+  columnHelper.accessor('price', {
+    meta: { label: 'Price' },
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center justify-end">
+          <Button
+            variant="ghost"
+            role="button"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="ml-auto"
+          >
+            Price
+            <ArrowUpDown />
+          </Button>
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -107,7 +179,9 @@ export const columns = columnHelper.columns([
       return <div className="text-right font-normal">{formatted}</div>;
     },
   }),
+
   columnHelper.display({
+    meta: { label: 'actions' },
     id: 'actions',
     cell: ({ row }) => {
       const product = row.original; //for accessing row data
@@ -115,10 +189,12 @@ export const columns = columnHelper.columns([
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center justify-end">
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>

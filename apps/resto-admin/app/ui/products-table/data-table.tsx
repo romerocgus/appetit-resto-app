@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import {
+  ColumnFilter,
   useTable,
   type ColumnDef,
   type ColumnFiltersState,
@@ -20,6 +21,19 @@ import { Input } from '@/components/ui/input';
 import { features, type DataTableFeatures } from './data-table-features';
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableView } from './data-table-view';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Settings2 } from 'lucide-react';
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];
@@ -56,7 +70,7 @@ export function DataTable<TData extends RowData>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between gap-2 mb-4">
         <Input
           placeholder="Filter products"
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -68,7 +82,7 @@ export function DataTable<TData extends RowData>({
         <DataTableView table={table} />
       </div>
 
-      <div className="overflow-hidden rounded-md border">
+      <div className="rounded-md border mb-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

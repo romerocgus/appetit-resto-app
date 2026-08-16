@@ -23,11 +23,7 @@ export function DataTableView<TData extends RowData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto hidden h-8 lg:flex"
-        >
+        <Button variant="outline" size="sm" className="h-8">
           <Settings2 />
           View
         </Button>
@@ -42,6 +38,8 @@ export function DataTableView<TData extends RowData>({
               typeof column.accessorFn !== 'undefined' && column.getCanHide(),
           )
           .map((column) => {
+            const label =
+              (column.columnDef.meta as { label?: string })?.label ?? column.id;
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
@@ -49,7 +47,7 @@ export function DataTableView<TData extends RowData>({
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {label}
               </DropdownMenuCheckboxItem>
             );
           })}
