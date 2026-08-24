@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
 import {
-  ColumnFilter,
   useTable,
   type ColumnDef,
   type ColumnFiltersState,
@@ -21,19 +20,6 @@ import { Input } from '@/components/ui/input';
 import { features, type DataTableFeatures } from './data-table-features';
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableView } from './data-table-view';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Settings2 } from 'lucide-react';
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];

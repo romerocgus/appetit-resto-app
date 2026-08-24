@@ -3,13 +3,7 @@
 import { createColumnHelper } from '@tanstack/react-table';
 
 import { type DataTableFeatures } from './data-table-features';
-import {
-  MoreHorizontal,
-  PenLine,
-  Trash2,
-  Copy,
-  ArrowUpDown,
-} from 'lucide-react';
+import { MoreHorizontal, PenLine, ArrowUpDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -24,6 +18,8 @@ import {
 import { ProductWithRelations } from '@/lib/requests';
 import TableImage from './table-image';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { AlertDialogDestructive } from '../alert-dialog-destructive';
 
 const columnHelper = createColumnHelper<
   DataTableFeatures,
@@ -198,21 +194,15 @@ export const columns = columnHelper.columns([
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              <Copy />
-              <span>Copy product ID</span>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <PenLine />
-              <span>Edit</span>
+            <DropdownMenuItem asChild>
+              <Link href={`products/${product.id}/edit`}>
+                <PenLine />
+                <span>Edit</span>
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem variant="destructive">
-              <Trash2 />
-              <span>Delete</span>
-            </DropdownMenuItem>
+
+            <AlertDialogDestructive />
           </DropdownMenuContent>
         </DropdownMenu>
       );
