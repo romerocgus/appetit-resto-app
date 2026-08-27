@@ -25,7 +25,7 @@ export default async function PageHeader({
   pageDescription,
 }: PageHeaderProps) {
   return (
-    <header className="flex flex-col gap-6">
+    <header className="flex flex-col gap-6 px-4 pt-2 mb-10">
       <div className="flex shrink-0 items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Separator

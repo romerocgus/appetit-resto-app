@@ -1,11 +1,3 @@
-import { type ReactTable, type RowData } from '@tanstack/react-table';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -14,8 +6,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import { type DataTableFeatures } from './data-table-features';
+import { type ReactTable, type RowData } from '@tanstack/react-table';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-react';
+import { DataTableFeatures } from '../data-table-features';
 
 interface DataTablePaginationProps<TData extends RowData> {
   table: ReactTable<DataTableFeatures, TData>;

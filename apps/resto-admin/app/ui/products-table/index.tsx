@@ -1,13 +1,6 @@
 'use client';
-import * as React from 'react';
-import {
-  useTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type ColumnVisibilityState,
-  type RowData,
-  type SortingState,
-} from '@tanstack/react-table';
+
+import { Card } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -16,10 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
+import { Product } from '@repo/database';
+import {
+  useTable,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type ColumnVisibilityState,
+  type RowData,
+  type SortingState,
+} from '@tanstack/react-table';
+import * as React from 'react';
+import { DataTableHead } from './components/data-table-head';
+import { DataTablePagination } from './components/data-table-pagination';
 import { features, type DataTableFeatures } from './data-table-features';
-import { DataTablePagination } from './data-table-pagination';
-import { DataTableView } from './data-table-view';
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[];
@@ -54,19 +56,12 @@ export function DataTable<TData extends RowData>({
     },
   });
 
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
+  const selectedIds = selectedRows.map((row) => (row.original as Product).id);
+
   return (
-    <div>
-      <div className="flex items-center justify-between gap-2 mb-4">
-        <Input
-          placeholder="Filter products"
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DataTableView table={table} />
-      </div>
+    <Card className="p-6 shadow-xl">
+      <DataTableHead table={table} selectedProducts={selectedIds} />
 
       <div className="rounded-md border mb-3">
         <Table>
@@ -112,7 +107,8 @@ export function DataTable<TData extends RowData>({
           </TableBody>
         </Table>
       </div>
+
       <DataTablePagination table={table} />
-    </div>
+    </Card>
   );
 }
