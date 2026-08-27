@@ -24,7 +24,7 @@ export default async function ProductsPage({
         pageTitle="Productos"
         pageDescription="Aqui puedes gestionar tus productos"
       />
-      <div className="flex flex-col gap-6 px-6">
+      <div className="flex flex-col gap-6 px-6 pb-10">
         <Button className="max-w-40">
           <Plus />
           Add New Product
