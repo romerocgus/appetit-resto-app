@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { ThemeProvider } from 'next-themes';
+import ThemeToggle from './ui/theme-toggle';
 
 const outfitHeading = Outfit({
   subsets: ['latin'],
@@ -25,9 +27,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(outfitHeading.variable)}>
+    <html
+      lang="en"
+      className={cn(outfitHeading.variable)}
+      suppressHydrationWarning
+    >
       <body className={`${inter.className}`}>
-        <TooltipProvider>{children}</TooltipProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            <ThemeToggle />
+            {children}
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
