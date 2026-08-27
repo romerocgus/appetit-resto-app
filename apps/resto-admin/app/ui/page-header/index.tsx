@@ -8,22 +8,29 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { getBarHeaderData } from '@/lib/requests';
 import Link from 'next/link';
+import ImageComponent from '../image-component';
 
 type PageHeaderProps = {
+  barId: string;
+  pageTitle: string;
   backlink?: {
     title: string;
     href: string;
   };
-  pageTitle: string;
   pageDescription?: string;
 };
 
 export default async function PageHeader({
-  backlink,
+  barId,
   pageTitle,
+  backlink,
   pageDescription,
 }: PageHeaderProps) {
+  const barHeader = await getBarHeaderData(barId);
+  const barLogo = barHeader?.logoUrl || '';
+
   return (
     <header className="flex flex-col gap-6 px-4 pt-2 mb-10">
       <div className="flex shrink-0 items-center gap-2">
@@ -50,8 +57,11 @@ export default async function PageHeader({
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex flex-col items-center gap-2">
-        <h1 className="text-2xl font-bold">{pageTitle}</h1>
+      <div className="flex flex-col items-center gap-3">
+        <ImageComponent src={barLogo} alt="test" width={40} height={40} />
+        <h1 className="text-2xl font-bold">
+          {barHeader?.name} <span className="text-primary">{pageTitle}</span>
+        </h1>
         <h2 className="text-xl text-muted-foreground">{pageDescription}</h2>
       </div>
     </header>

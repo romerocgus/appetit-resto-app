@@ -20,6 +20,7 @@ export default async function ProductsPage({
   return (
     <>
       <PageHeader
+        barId={barId}
         pageTitle="Productos"
         pageDescription="Aqui puedes gestionar tus productos"
       />

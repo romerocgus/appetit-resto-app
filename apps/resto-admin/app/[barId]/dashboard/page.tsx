@@ -5,10 +5,15 @@ export const metadata: Metadata = {
   title: 'Dashboard',
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ barId: string }>;
+}) {
+  const { barId } = await params;
   return (
     <>
-      <PageHeader pageTitle="Dashboard" pageDescription="Test" />
+      <PageHeader barId={barId} pageTitle="Dashboard" pageDescription="Test" />
       <h1>DASHBOARD</h1>
     </>
   );

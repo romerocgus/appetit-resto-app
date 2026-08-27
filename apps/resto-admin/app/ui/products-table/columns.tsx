@@ -6,8 +6,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ProductWithRelations } from '@/lib/requests';
 import { createColumnHelper } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
+import ImageComponent from '../image-component';
 import TableActionsCell from './components/table-actions-cell';
-import TableImageCell from './components/table-image-cell';
 import { type DataTableFeatures } from './data-table-features';
 
 const columnHelper = createColumnHelper<
@@ -39,7 +39,14 @@ export const columns = columnHelper.columns([
   columnHelper.accessor('image', {
     meta: { label: 'Image' },
     header: 'Image',
-    cell: (info) => <TableImageCell src={info.getValue()} />,
+    cell: (info) => (
+      <ImageComponent
+        src={info.getValue()}
+        alt="product Image"
+        width={40}
+        height={40}
+      />
+    ),
   }),
   columnHelper.accessor('name', {
     meta: { label: 'Name' },

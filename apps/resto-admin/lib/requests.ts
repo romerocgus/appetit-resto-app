@@ -69,3 +69,22 @@ export async function getProductsByBarId(
     return null;
   }
 }
+
+export async function getBarHeaderData(barId: string) {
+  try {
+    const barHeader = await prisma.bar.findUnique({
+      where: {
+        id: barId,
+      },
+      select: {
+        name: true,
+        logoUrl: true,
+      },
+    });
+
+    return barHeader;
+  } catch (error) {
+    console.error('Error obtaining Bar data:', error);
+    return null;
+  }
+}
