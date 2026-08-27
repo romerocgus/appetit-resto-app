@@ -32,7 +32,7 @@ export function DataTableHead<TData extends RowData>({
         }
         className="max-w-2xs"
       />
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         {showDeleteButton && (
           <Button variant="destructive" size="sm" className="h-8">
             <Trash2 />
