@@ -9,9 +9,7 @@ export default async function AdminPanelLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <div className="flex flex-col px-4 py-2 gap-6">{children}</div>
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );
 }

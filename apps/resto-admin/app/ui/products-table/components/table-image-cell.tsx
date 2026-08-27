@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import Image from 'next/image';
-import { Image as ImageIcon } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+'use client';
 
-export default function TableImage({
+import { Skeleton } from '@/components/ui/skeleton';
+import { Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+
+export default function TableImageCell({
   src,
 }: {
   src: string | null | undefined;

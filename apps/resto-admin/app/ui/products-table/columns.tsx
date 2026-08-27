@@ -1,25 +1,14 @@
 'use client';
 
-import { createColumnHelper } from '@tanstack/react-table';
-
-import { type DataTableFeatures } from './data-table-features';
-import { MoreHorizontal, PenLine, ArrowUpDown } from 'lucide-react';
-
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { ProductWithRelations } from '@/lib/requests';
-import TableImage from './table-image';
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
-import { AlertDialogDestructive } from '../alert-dialog-destructive';
+import { createColumnHelper } from '@tanstack/react-table';
+import { ArrowUpDown } from 'lucide-react';
+import TableActionsCell from './components/table-actions-cell';
+import TableImageCell from './components/table-image-cell';
+import { type DataTableFeatures } from './data-table-features';
 
 const columnHelper = createColumnHelper<
   DataTableFeatures,
@@ -50,7 +39,7 @@ export const columns = columnHelper.columns([
   columnHelper.accessor('image', {
     meta: { label: 'Image' },
     header: 'Image',
-    cell: (info) => <TableImage src={info.getValue()} />,
+    cell: (info) => <TableImageCell src={info.getValue()} />,
   }),
   columnHelper.accessor('name', {
     meta: { label: 'Name' },
@@ -180,32 +169,8 @@ export const columns = columnHelper.columns([
     meta: { label: 'actions' },
     id: 'actions',
     cell: ({ row }) => {
-      const product = row.original; //for accessing row data
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="flex items-center justify-end">
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href={`products/${product.id}/edit`}>
-                <PenLine />
-                <span>Edit</span>
-              </Link>
-            </DropdownMenuItem>
-
-            <AlertDialogDestructive />
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      const product = row.original;
+      return <TableActionsCell productId={product.id} />;
     },
     enableSorting: false,
     enableHiding: false,
