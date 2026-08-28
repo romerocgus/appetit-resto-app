@@ -1,5 +1,12 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    rootParams: true,
+  },
   images: {
     //TODO: REPLACE FOR REAL IMAGE URL LINKS
     remotePatterns: [
@@ -9,4 +16,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

@@ -1,10 +1,11 @@
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
-import './globals.css';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { NextIntlClientProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
-import ThemeToggle from './ui/theme-toggle';
+import { Inter, Outfit } from 'next/font/google';
+import '@/app/globals.css';
+import ThemeToggle from '../ui/theme-toggle';
 
 const outfitHeading = Outfit({
   subsets: ['latin'],
@@ -39,10 +40,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>
-            <ThemeToggle />
-            {children}
-          </TooltipProvider>
+          <NextIntlClientProvider>
+            <TooltipProvider>
+              <ThemeToggle />
+              {children}
+            </TooltipProvider>
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

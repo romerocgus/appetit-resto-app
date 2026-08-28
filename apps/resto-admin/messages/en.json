@@ -1,0 +1,9 @@
+{
+  "Common": {
+    "welcome": "Welcome",
+    "save": "Save"
+  },
+  "HomePage": {
+    "title": "Hello world!"
+  }
+}

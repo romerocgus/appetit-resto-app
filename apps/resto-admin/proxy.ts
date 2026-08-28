@@ -1,6 +1,10 @@
 import type { NextAuthRequest } from 'next-auth';
-import { auth } from './auth';
+import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
+import { auth } from './auth';
+import { routing } from './i18n/routing';
+
+const intlMiddleware = createMiddleware(routing);
 
 type ProxyRouteHandler = (
   req: NextAuthRequest,
@@ -13,14 +17,18 @@ const handler: ProxyRouteHandler = async (req) => {
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!req.auth;
 
+  const pathnameWithoutLocale = pathname.replace(/^\/(es|en)(\/|$)/, '/');
+
   const isPublic =
-    publicRoutes.includes(pathname) || pathname.startsWith('/api');
+    publicRoutes.includes(pathnameWithoutLocale) || pathname.startsWith('/api');
 
   if (!isLoggedIn && !isPublic) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    const localeMatch = pathname.match(/^\/(es|en)(\/|$)/);
+    const currentLocale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+    return NextResponse.redirect(new URL(`/${currentLocale}/login`, req.url));
   }
 
-  return NextResponse.next();
+  return intlMiddleware(req);
 };
 
 const protectedHandler: ProxyRouteHandler = auth(handler);

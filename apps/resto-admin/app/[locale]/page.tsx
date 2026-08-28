@@ -1,10 +1,12 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { auth } from '@/auth';
-import { redirect } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import { getDefaultBarId } from '@/lib/requests';
+import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
+  const t = await getTranslations('HomePage');
   const session = await auth();
   const clientId = session?.user?.id;
 
@@ -18,7 +20,7 @@ export default async function Home() {
 
   return (
     <main>
-      <h1 className="text-3xl font-bold underline ">Pagina principal</h1>
+      <h1 className="text-3xl font-bold underline ">{t('title')}</h1>
 
       <Button className="px-10" asChild>
         <Link href="/login">Login</Link>
