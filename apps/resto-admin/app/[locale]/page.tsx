@@ -1,8 +1,8 @@
 import { auth } from '@/auth';
 import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
 import { getDefaultBarId } from '@/lib/requests';
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {

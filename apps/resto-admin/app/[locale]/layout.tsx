@@ -1,11 +1,11 @@
+import '@/app/globals.css';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@teispace/next-themes';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { ThemeProvider } from 'next-themes';
 import { Inter, Outfit } from 'next/font/google';
-import '@/app/globals.css';
-import ThemeToggle from '../ui/theme-toggle';
+import PageSettings from '../ui/page-settings';
 
 const outfitHeading = Outfit({
   subsets: ['latin'],
@@ -39,10 +39,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          storage="hybrid"
         >
           <NextIntlClientProvider>
             <TooltipProvider>
-              <ThemeToggle />
+              <PageSettings />
               {children}
             </TooltipProvider>
           </NextIntlClientProvider>
