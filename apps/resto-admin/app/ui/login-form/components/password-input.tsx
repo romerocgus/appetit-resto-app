@@ -7,7 +7,7 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
-import { Eye, EyeClosed, LockKeyhole, CircleAlert } from 'lucide-react';
+import { CircleAlert, Eye, EyeClosed, LockKeyhole } from 'lucide-react';
 import * as React from 'react';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { InputErrorMSG } from '../types';
@@ -22,12 +22,14 @@ type PasswordInputProps = {
     password: string;
   }>;
   showHelper: boolean;
+  placeholder: string;
 };
 
 export default function PasswordInput({
   register,
   watch,
   showHelper,
+  placeholder,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -46,7 +48,7 @@ export default function PasswordInput({
         </InputGroupAddon>
         <InputGroupInput
           id="password"
-          placeholder="Password"
+          placeholder={placeholder}
           type={showPassword ? 'text' : 'password'}
           {...register('password')}
           required

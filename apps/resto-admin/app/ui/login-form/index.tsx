@@ -1,5 +1,6 @@
 'use client';
 
+import { loginAction } from '@/app/actions/login-action';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,15 +14,14 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from '@/components/ui/input-group';
-import { cn } from '@/lib/utils';
-import { User } from 'lucide-react';
-import Image from 'next/image';
-
-import { useState } from 'react';
-import { loginAction } from '@/app/actions/login-action';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema } from '@/lib/schemas';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import PasswordInput from './components/password-input';
 import { LoginValues } from './types';
 
@@ -30,6 +30,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<'div'>) {
   const [serverError, setServerError] = useState<string | undefined>(undefined);
+  const t = useTranslations('LoginPage');
 
   const {
     register,
@@ -67,9 +68,9 @@ export function LoginForm({
                   width={64}
                   height={64}
                 />
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">{t('title')}</h1>
                 <p className="text-balance text-muted-foreground">
-                  Log in to access your administration panel
+                  {t('subtitle')}
                 </p>
               </div>
               <Field>
@@ -100,24 +101,25 @@ export function LoginForm({
                   register={register}
                   showHelper={!!errors.password?.message}
                   watch={watch}
+                  placeholder={t('passwordInput')}
                 />
                 {/* TODO: Create a page for this case */}
                 <a
                   href="#"
                   className="ml-auto text-sm underline-offset-2 hover:underline"
                 >
-                  Forgot your password?
+                  {t('noPassword')}
                 </a>
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit">{t('loginButton')}</Button>
                 {serverError && (
                   <p className="text-destructive text-xs text-center">
                     {serverError}
                   </p>
                 )}
               </Field>
-              <FieldSeparator>Or continue with</FieldSeparator>
+              <FieldSeparator>{t('separatorText')}</FieldSeparator>
               {/* TODO: GOOGLE LOGIN */}
               <Button variant="outline" type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -126,11 +128,11 @@ export function LoginForm({
                     fill="currentColor"
                   />
                 </svg>
-                <span className="sr-only">Login with Google</span>
+                <span className="sr-only">{t('googleButton')}</span>
               </Button>
               <FieldDescription className="text-center">
                 {/* TODO: CREATE REGISTER PAGE */}
-                {`Don't have an account?`} <a href="#">Sign up</a>
+                {t('signupText')} <a href="#">{t('signupLink')}</a>
               </FieldDescription>
             </FieldGroup>
           </form>
@@ -147,8 +149,10 @@ export function LoginForm({
       </Card>
       {/* TODO: CREATE TERMS OF SERVICE AND PRIVACY POLICY PAGES */}
       <FieldDescription className="px-6 text-center">
-        By loging in, you agree to our <a href="#">Terms of Service</a> and{' '}
-        <a href="#">Privacy Policy</a>.
+        {t('termsPart1')}
+        <a href="#">{t('termsPart2')}</a>
+        {t('termsPart3')}
+        <a href="#">{t('termsPart4')}</a>.
       </FieldDescription>
     </div>
   );

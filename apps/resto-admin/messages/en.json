@@ -5,5 +5,20 @@
   },
   "HomePage": {
     "title": "Hello world!"
+  },
+  "LoginPage": {
+    "title": "Welcome back",
+    "subtitle": "Log in to access your administration panel",
+    "passwordInput": "Password",
+    "noPassword": "Forgot your password?",
+    "loginButton": "Login",
+    "separatorText": "Or continue with",
+    "googleButton": "Login with Google",
+    "signupText": "Don't have an account?",
+    "signupLink": "Sign up",
+    "termsPart1": "By loging in, you agree to our ",
+    "termsPart2": "Terms of Service ",
+    "termsPart3": "and ",
+    "termsPart4": "Privacy Policy"
   }
 }

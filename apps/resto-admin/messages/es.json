@@ -5,5 +5,20 @@
   },
   "HomePage": {
     "title": "Hola Mundo!"
+  },
+  "LoginPage": {
+    "title": "Bienvenido de nuevo",
+    "subtitle": "Inicia Sesion para acceder a tu panel de administrador",
+    "passwordInput": "Contraseña",
+    "noPassword": "Olvidaste tu contraseña?",
+    "loginButton": "Iniciar Sesion",
+    "separatorText": "O continua con",
+    "googleButton": "Inicia sesion con Google",
+    "signupText": "No tienes una cuenta?",
+    "signupLink": "Regístrate",
+    "termsPart1": "Al iniciar sesion, estas de acuerdo con nuestras ",
+    "termsPart2": "Condiciones de Servicio ",
+    "termsPart3": "y ",
+    "termsPart4": "Politicas de Privacidad"
   }
 }
