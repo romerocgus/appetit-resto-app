@@ -1,46 +1,47 @@
 'use client';
-import { SidebarMenuButton } from '@/components/ui/sidebar';
+import { SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Link } from '@/i18n/navigation';
 import {
   LayoutDashboard,
   NotebookTabs,
   QrCode,
   Salad,
   ScrollText,
-  Settings,
 } from 'lucide-react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useParams, usePathname } from 'next/navigation';
-import { PageNames } from '../types';
+import { PageSlugs } from '../types';
 
-const ICONS: Record<PageNames, React.ReactNode> = {
-  [PageNames.dashboard]: <LayoutDashboard />,
-  [PageNames.menus]: <ScrollText />,
-  [PageNames.products]: <Salad />,
-  [PageNames.categories]: <NotebookTabs />,
-  [PageNames.qrcode]: <QrCode />,
-  [PageNames.settings]: <Settings />,
+const ICONS: Record<PageSlugs, React.ReactNode> = {
+  [PageSlugs.dashboard]: <LayoutDashboard />,
+  [PageSlugs.menus]: <ScrollText />,
+  [PageSlugs.products]: <Salad />,
+  [PageSlugs.categories]: <NotebookTabs />,
+  [PageSlugs.qrcode]: <QrCode />,
 };
 
 type NavLinkProps = {
-  name: PageNames;
-  slug: string;
+  slug: PageSlugs;
 };
 
-export default function NavLink({ name, slug }: NavLinkProps) {
+export default function NavLink({ slug }: NavLinkProps) {
   const pathName = usePathname();
   const { barId } = useParams();
-  const icon = ICONS[name];
+  const icon = ICONS[slug];
+  const t = useTranslations('AppSidebar.navItems');
 
   if (!icon) {
     return null;
   }
 
   return (
-    <SidebarMenuButton asChild isActive={pathName.includes(slug)}>
-      <Link href={`/${barId}/${slug}`}>
-        {icon}
-        <span>{name}</span>
-      </Link>
-    </SidebarMenuButton>
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={pathName.includes(slug)}>
+        <Link href={`/${barId}/${slug}`}>
+          {icon}
+          <span>{t(slug)}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
   );
 }

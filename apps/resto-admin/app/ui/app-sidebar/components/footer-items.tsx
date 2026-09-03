@@ -8,10 +8,12 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Power, Settings } from 'lucide-react';
-import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export const FooterItems = () => {
+  const t = useTranslations('AppSidebar.footer');
   const handleLogout = () => {
     signOut();
   };
@@ -25,14 +27,14 @@ export const FooterItems = () => {
             <SidebarMenuButton asChild>
               <Link href="/settings">
                 <Settings />
-                <span>Settings</span>
+                <span>{t('settings')}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton variant="outline" onClick={handleLogout}>
               <Power />
-              <span>Log out</span>
+              <span>{t('logOut')}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

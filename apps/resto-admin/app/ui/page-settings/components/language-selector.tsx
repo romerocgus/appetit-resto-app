@@ -12,12 +12,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { Earth } from 'lucide-react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function LanguageSelector() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations('PageSettings');
 
   const handleChangeLanguage = (value: string) => {
     router.replace({ pathname: pathname }, { locale: value });
@@ -28,18 +29,18 @@ export default function LanguageSelector() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon-sm">
           <Earth />
-          <span className="sr-only">Select Language</span>
+          <span className="sr-only">{t('languageButton')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Language</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('languageLabel')}</DropdownMenuLabel>
           <DropdownMenuRadioGroup
             value={locale}
             onValueChange={handleChangeLanguage}
           >
-            <DropdownMenuRadioItem value="es">Spanish</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="es">{t('es')}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="en">{t('en')}</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
       </DropdownMenuContent>

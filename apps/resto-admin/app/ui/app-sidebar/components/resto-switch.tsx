@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/sidebar';
 import { BarMember } from '@repo/shared-types';
 import { ChevronDown, GalleryVerticalEnd, Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { notFound, useParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -28,10 +29,10 @@ export const RestoSwitcher = ({
   const { isMobile } = useSidebar();
   const [activeMembership, setActiveMembership] = useState(memberships[0]);
 
+  const t = useTranslations('AppSidebar.restoSwitch');
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
-
   const currentBarId = params.barId as string;
 
   if (!activeMembership) {
@@ -77,7 +78,7 @@ export const RestoSwitcher = ({
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Restaurant
+              {t('label')}
             </DropdownMenuLabel>
             {memberships.map((membership, index) => (
               <DropdownMenuItem
@@ -98,7 +99,7 @@ export const RestoSwitcher = ({
                 <Plus className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">
-                Add Restaurant
+                {t('addButton')}
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>

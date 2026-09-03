@@ -1,8 +1,7 @@
-export enum PageNames {
-  dashboard = 'Dashboard',
-  menus = 'Menus',
-  products = 'Products',
-  categories = 'Categories',
-  qrcode = 'QR Code',
-  settings = 'Settings',
+export enum PageSlugs {
+  dashboard = 'dashboard',
+  menus = 'menus',
+  products = 'products',
+  categories = 'categories',
+  qrcode = 'qrcode',
 }

@@ -3,6 +3,33 @@
     "welcome": "Welcome",
     "save": "Save"
   },
+  "PageSettings": {
+    "languageButton": "Select language",
+    "languageLabel": "Language",
+    "es": "Spanish",
+    "en": "English"
+  },
+  "AppSidebar": {
+    "restoSwitch": {
+      "label": "Restaurant",
+      "addButton": "Add Restaurant"
+    },
+    "groupLabels": {
+      "overview": "Overview",
+      "contentManagement": "Content management"
+    },
+    "navItems": {
+      "dashboard": "Dashboard",
+      "menus": "Menus",
+      "products": "Products",
+      "categories": "Categories",
+      "qrcode": "Qr Code"
+    },
+    "footer": {
+      "settings": "Settings",
+      "logOut": "Log out"
+    }
+  },
   "HomePage": {
     "title": "Hello world!"
   },
