@@ -47,5 +47,13 @@
     "termsPart2": "Condiciones de Servicio ",
     "termsPart3": "y ",
     "termsPart4": "Politicas de Privacidad"
+  },
+  "DashboardPage": {
+    "title": "Dashboard",
+    "description": "Este es tu dashboard"
+  },
+  "ProductsPage": {
+    "title": "Productos",
+    "description": "Aqui puedes gestionar tus productos"
   }
 }

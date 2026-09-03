@@ -47,5 +47,13 @@
     "termsPart2": "Terms of Service ",
     "termsPart3": "and ",
     "termsPart4": "Privacy Policy"
+  },
+  "DashboardPage": {
+    "title": "Dashboard",
+    "description": "this is your dashboard"
+  },
+  "ProductsPage": {
+    "title": "Products",
+    "description": "Here you can manage your products"
   }
 }
