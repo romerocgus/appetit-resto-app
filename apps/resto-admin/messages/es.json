@@ -35,18 +35,27 @@
   },
   "LoginPage": {
     "title": "Bienvenido de nuevo",
-    "subtitle": "Inicia Sesion para acceder a tu panel de administrador",
+    "subtitle": "Inicia sesión para acceder a tu panel de administrador",
     "passwordInput": "Contraseña",
     "noPassword": "Olvidaste tu contraseña?",
-    "loginButton": "Iniciar Sesion",
+    "loginButton": "Iniciar Sesión",
     "separatorText": "O continua con",
-    "googleButton": "Inicia sesion con Google",
+    "googleButton": "Inicia sesión con Google",
     "signupText": "No tienes una cuenta?",
     "signupLink": "Regístrate",
-    "termsPart1": "Al iniciar sesion, estas de acuerdo con nuestras ",
+    "termsPart1": "Al iniciar sesión, estas de acuerdo con nuestras ",
     "termsPart2": "Condiciones de Servicio ",
     "termsPart3": "y ",
-    "termsPart4": "Politicas de Privacidad"
+    "termsPart4": "Politicas de Privacidad",
+    "validation": {
+      "emailError": "El e-mail no es valido",
+      "passwordMinLenght": "Tener al menos 8 caracteres de longitud",
+      "passwordHasLetter": "Contener al menos una letra",
+      "passwordHasNumber": "Contener al menos un número",
+      "credentialsError": "La contraseña no corresponde a la cuenta",
+      "validationError": "Los campos no se han completado correctamente",
+      "authError": "Hemos experimentado un error durante la autenticación, por favor intente nuevamente"
+    }
   },
   "DashboardPage": {
     "title": "Dashboard",
@@ -54,6 +63,45 @@
   },
   "ProductsPage": {
     "title": "Productos",
-    "description": "Aqui puedes gestionar tus productos"
+    "description": "Aqui puedes gestionar tus productos",
+    "addButton": "Agregar Nuevo Producto",
+    "productsTable": {
+      "tableHead": {
+        "filterInput": "Filtrar productos...",
+        "deleteButton": "Eliminar",
+        "viewButton": "Vista",
+        "showColumns": "Mostrar Columnas"
+      },
+      "tablePagination": {
+        "checkboxCount": "{checked} de {total, plural, =1 {# fila} other{# filas}} ",
+        "selected": "seleccionadas",
+        "rowsPerPage": "Filas por página",
+        "pagesCount": "Página {current} de {total}",
+        "firstPageLabel": "Ir a primera página",
+        "prevPageLabel": "Ir a página previa",
+        "nextPageLabel": "Ir a próxima página",
+        "lastPageLabel": "Ir a úiltima página"
+      },
+      "tableColumns": {
+        "image": "Imagen",
+        "name": "Nombre",
+        "description": "Descripción",
+        "category": "Categoria",
+        "tags": "Etiquetas",
+        "availability": "Disponibilidad",
+        "price": "Precio"
+      },
+      "tableActions": {
+        "actionsLabel": "Acciones",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "deleteDialog": {
+          "title": "Eliminar elemento?",
+          "description": "Se eliminará éste elemento permanentemente",
+          "cancelButton": "Cancelar",
+          "deleteButton": "Eliminar"
+        }
+      }
+    }
   }
 }

@@ -9,27 +9,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { ProductWithRelations } from '@/lib/requests';
 import { Product } from '@repo/database';
 import {
   useTable,
-  type ColumnDef,
   type ColumnFiltersState,
   type ColumnVisibilityState,
-  type RowData,
   type SortingState,
 } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 import * as React from 'react';
+import { createColumns } from './columns';
 import { DataTableHead } from './components/data-table-head';
 import { DataTablePagination } from './components/data-table-pagination';
-import { features, type DataTableFeatures } from './data-table-features';
+import { features } from './data-table-features';
 
-interface DataTableProps<TData extends RowData> {
-  columns: ColumnDef<DataTableFeatures, TData>[];
+interface DataTableProps<TData extends ProductWithRelations> {
   data: TData[];
 }
 
-export function DataTable<TData extends RowData>({
-  columns,
+export function DataTable<TData extends ProductWithRelations>({
   data,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -39,6 +38,8 @@ export function DataTable<TData extends RowData>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<ColumnVisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const t = useTranslations('ProductsPage.productsTable.tableColumns');
+  const columns = createColumns(t);
 
   const table = useTable({
     features,

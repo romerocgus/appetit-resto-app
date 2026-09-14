@@ -46,7 +46,16 @@
     "termsPart1": "By loging in, you agree to our ",
     "termsPart2": "Terms of Service ",
     "termsPart3": "and ",
-    "termsPart4": "Privacy Policy"
+    "termsPart4": "Privacy Policy",
+    "validation": {
+      "emailError": "Invalid e-mail",
+      "passwordMinLenght": "Be at least 8 characters long",
+      "passwordHasLetter": "Contain at least one letter",
+      "passwordHasNumber": "Contain at least one number",
+      "credentialsError": "Password does not match with your account",
+      "validationError": "fields not filled correctly",
+      "authError": "We've experienced an error during your authentication, please try again"
+    }
   },
   "DashboardPage": {
     "title": "Dashboard",
@@ -54,6 +63,45 @@
   },
   "ProductsPage": {
     "title": "Products",
-    "description": "Here you can manage your products"
+    "description": "Here you can manage your products",
+    "addButton": "Add New Product",
+    "productsTable": {
+      "tableHead": {
+        "filterInput": "Filter products...",
+        "deleteButton": "Delete",
+        "viewButton": "View",
+        "showColumns": "Show Columns"
+      },
+      "tablePagination": {
+        "checkboxCount": "{checked} of {total, plural, =1 {# row} other{# rows}} ",
+        "selected": "selected.",
+        "rowsPerPage": "Rows per page",
+        "pagesCount": "Page {current} of {total}",
+        "firstPageLabel": "Go to first page",
+        "prevPageLabel": "Go to previous page",
+        "nextPageLabel": "Go to next page",
+        "lastPageLabel": "Go to last page"
+      },
+      "tableColumns": {
+        "image": "Image",
+        "name": "Name",
+        "description": "Description",
+        "category": "Category",
+        "tags": "Tags",
+        "availability": "Availability",
+        "price": "Price"
+      },
+      "tableActions": {
+        "actionsLabel": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteDialog": {
+          "title": "Delete element?",
+          "description": "This will permanently delete this element.",
+          "cancelButton": "Cancel",
+          "deleteButton": "Delete"
+        }
+      }
+    }
   }
 }

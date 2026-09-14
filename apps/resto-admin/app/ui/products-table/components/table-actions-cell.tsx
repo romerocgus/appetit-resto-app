@@ -21,11 +21,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal, PenLine, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export default function TableActionsCell({ productId }: { productId: string }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const t = useTranslations('ProductsPage.productsTable.tableActions');
   return (
     <>
       <DropdownMenu>
@@ -38,12 +40,12 @@ export default function TableActionsCell({ productId }: { productId: string }) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('actionsLabel')}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild className="cursor-pointer">
             <Link href={`products/${productId}/edit`}>
               <PenLine />
-              <span>Edit</span>
+              <span>{t('edit')}</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -51,7 +53,7 @@ export default function TableActionsCell({ productId }: { productId: string }) {
             onSelect={() => setShowDeleteDialog(true)}
           >
             <Trash2 />
-            <span>Delete</span>
+            <span>{t('delete')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -62,14 +64,18 @@ export default function TableActionsCell({ productId }: { productId: string }) {
             <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
               <Trash2 />
             </AlertDialogMedia>
-            <AlertDialogTitle>Delete element?</AlertDialogTitle>
+            <AlertDialogTitle>{t('deleteDialog.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this element.
+              {t('deleteDialog.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-            <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+            <AlertDialogCancel variant="outline">
+              {t('deleteDialog.cancelButton')}
+            </AlertDialogCancel>
+            <AlertDialogAction variant="destructive">
+              {t('deleteDialog.deleteButton')}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

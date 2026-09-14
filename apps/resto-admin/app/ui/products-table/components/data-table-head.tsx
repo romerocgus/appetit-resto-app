@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { type ReactTable, type RowData } from '@tanstack/react-table';
 import { Settings2, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { type DataTableFeatures } from '../data-table-features';
 
 export function DataTableHead<TData extends RowData>({
@@ -21,11 +22,12 @@ export function DataTableHead<TData extends RowData>({
   table: ReactTable<DataTableFeatures, TData>;
   selectedProducts: string[];
 }) {
+  const t = useTranslations('ProductsPage.productsTable.tableHead');
   const showDeleteButton = selectedProducts.length > 0;
   return (
     <div className="flex items-center justify-between gap-2 mb-4">
       <Input
-        placeholder="Filter products"
+        placeholder={t('filterInput')}
         value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
         onChange={(event) =>
           table.getColumn('name')?.setFilterValue(event.target.value)
@@ -36,18 +38,18 @@ export function DataTableHead<TData extends RowData>({
         {showDeleteButton && (
           <Button variant="destructive" size="sm" className="h-8">
             <Trash2 />
-            {`Delete ${selectedProducts.length}`}
+            {`${t('deleteButton')} ${selectedProducts.length}`}
           </Button>
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="h-8">
               <Settings2 />
-              View
+              {t('viewButton')}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-37.5">
-            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('showColumns')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {table
               .getAllColumns()

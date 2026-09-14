@@ -1,6 +1,5 @@
 import PageHeader from '@/app/ui/page-header';
 import { DataTable } from '@/app/ui/products-table';
-import { columns } from '@/app/ui/products-table/columns';
 import { Button } from '@/components/ui/button';
 import { getProductsByBarId } from '@/lib/requests';
 import { Plus } from 'lucide-react';
@@ -29,11 +28,11 @@ export default async function ProductsPage({
         pageDescription={pageDescription}
       />
       <div className="flex flex-col gap-6 px-6 pb-10">
-        <Button className="max-w-40">
+        <Button className="max-w-min">
           <Plus />
-          Add New Product
+          {t('addButton')}
         </Button>
-        {products && <DataTable columns={columns} data={products} />}
+        {products && <DataTable data={products} />}
       </div>
     </>
   );
